@@ -1,12 +1,10 @@
-import React, {useState} from 'react'
 import { StyleSheet, Text, View } from 'react-native'
+import React from 'react'
 
 const Congratulations = () => {
-    const [modalVisible, setModalVisible] = useState(false);
   return (
     <View>
-      <View>
-      </View>
+      <Text>Congratulations</Text>
     </View>
   )
 }
