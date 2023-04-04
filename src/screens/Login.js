@@ -4,7 +4,7 @@ import LinearGradient from 'react-native-linear-gradient';
 
 
 
-const Login = () => {
+const Login = ({ navigation }) => {
   return (
     <View style={{flex:1, backgroundColor:'#FFF'}}>
       <Image
@@ -17,7 +17,7 @@ const Login = () => {
           <Text style={styles.text}>restaurants and fast delivery to your doorstep</Text>
         </View>
 
-          <TouchableOpacity>
+          <TouchableOpacity >
             <LinearGradient
               colors={['#EA2584', '#F14773', '#F2566A']}
               style={styles.save}>
@@ -25,7 +25,7 @@ const Login = () => {
             </LinearGradient>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={()=>navigation.navigate('Profile')}>
             <Text style={{fontSize:15, color:'#E82F7F'}}>Create an Account</Text>
           </TouchableOpacity>
       </View>

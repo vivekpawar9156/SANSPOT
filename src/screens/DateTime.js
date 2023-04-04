@@ -1,31 +1,54 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign'
-import DatePicker from 'react-native-date-picker'
 import Feather from 'react-native-vector-icons/Feather'
-
-const DateTime = () => {
-  const [date, setDate] = useState(new Date())
-  const [open, setOpen] = useState(false)
-  const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-  console.log(month[date.getMonth()])
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 
 
+const DateTime = ({navigation}) => {
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
+  const [selectedDate, setSelectedDate] = useState('selected')
 
-  // useEffect(() => {
-  //   var date = new Date().getDate(); //Current Date
-  //   var month = new Date().getMonth() + 1; //Current Month
-  //   var year = new Date().getFullYear(); //Current Year
-  //   var hours = new Date().getHours(); //Current Hours
-  //   var min = new Date().getMinutes(); //Current Minutes
-  //   var sec = new Date().getSeconds(); //Current Seconds
-  //   setCurrentDate(
-  //     date + '/' + month + '/' + year 
-  //     + ' ' + hours + ':' + min + ':' + sec
-  //   );
-  // }, []);
+
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleDateConfirm = (date) => {
+    console.warn("A date has been picked: ", date);
+    const dt = new Date(date);
+    const x  = dt.toISOString().split('T');
+    const x1 = x[0].split('-')
+
+    selectedDate(x1[2] + '/' + x1[1] + '/' + x1[0])
+    hideDatePicker();
+  };
+
+
+
+  const showTimePicker = () => {
+    setTimePickerVisibility(true);
+  };
+
+  const hideTimePicker = () => {
+    setTimePickerVisibility(false);
+  };
+
+  const handleTimeConfirm = (date) => {
+    console.warn("A date has been picked: ", date);
+    hideTimePicker();
+  };
+
+
+
+
   return (
     <View style={{flex:1, backgroundColor:'red'}}>
       <View style={styles.modal}>
@@ -37,32 +60,36 @@ const DateTime = () => {
         <Text style={{marginTop:20, fontSize:16, color:'#464746', marginLeft:20}}>Delivery Date & Time</Text>
         <View style={[{width:'90%', height:60, alignSelf:'center', marginTop:10}, styles.xyz]}>
           <View style={[{width:'45%', height:40}, styles.view]}>
-            <TouchableOpacity onPress={() => setOpen(true)}>
+            <TouchableOpacity onPress={() => showDatePicker()}>
               <AntDesign name="calendar" size={20}/>
             </TouchableOpacity>
-            <DatePicker
-              modal
-              open={open}
-              date={date}
-              onConfirm={(date) => {
-                setOpen(false)
-                setDate(date)
-              }}
-              onCancel={() => {
-                setOpen(false)
-              }}
+            <DateTimePickerModal
+              isVisible={isDatePickerVisible}
+              mode="date"
+              onConfirm={handleDateConfirm}
+              onCancel={hideDatePicker}
             />
-            <Text>{date.getDate()}</Text>
-            <Text>{month[date.getMonth()]}</Text>
-            <Text>{date.getFullYear()}</Text>
+            <Text>{selectedDate}</Text>
+
           </View>
           <View style={[{width:'45%', height:40}, styles.view]}>
-              <Feather name="clock" size={20}/>
-              <Text>{date.getTime()}</Text>
+
+              <TouchableOpacity onLongPress={()=>showTimePicker()}>              
+                <Feather name="clock" size={20}/>
+              </TouchableOpacity>
+
+
+
+              <DateTimePickerModal
+                isVisible={isTimePickerVisible}
+                mode="time"
+                onConfirm={handleTimeConfirm}
+                onCancel={hideTimePicker}
+              />
           </View>
         </View>
-        <TouchableOpacity>
-              <Text>Confirm & Continue</Text>
+        <TouchableOpacity onPress={()=>navigation.navigate('Congratulations')} style={styles.button}>
+              <Text style={styles.textbutton}>Confirm & Continue</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -100,5 +127,20 @@ const styles = StyleSheet.create({
     alignItems:'center',
     flexDirection:'row',
     justifyContent:'space-around'
+  },
+  button:{
+    width:'50%',
+    height:50,
+    backgroundColor:'#eb2c7f',
+    borderRadius:10,
+    justifyContent:'center',
+    alignItems:'center',
+    alignSelf:'center'
+
+  },
+  textbutton:{
+    fontSize:15,
+    fontWeight:'500',
+    color:'#fff'
   }
 })

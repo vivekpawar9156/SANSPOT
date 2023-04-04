@@ -1,18 +1,20 @@
 import React from 'react'
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import AntDesign from "react-native-vector-icons/AntDesign"
 import FontAwesome from "react-native-vector-icons/FontAwesome"
 
-const Order = () => {
+const Order = ({navigation}) => {
   return (
     <View style={{flex:1}}>
         <View style={{width:'100%', height:60, elevation:5, justifyContent:'center', shadowColor:'#E9E9E8', backgroundColor:'#fff'}}>
             <View  style={{flexDirection:'row', width:'50%',justifyContent:'space-between', marginLeft:10}}>
-                <AntDesign name="arrowleft" size={25} color="#1C1C1F"/>
+                <TouchableOpacity onPress={()=>navigation.navigate('Congratulations')}>
+                    <AntDesign name="arrowleft" size={25} color="#1C1C1F"/>
+                </TouchableOpacity>
                 <Text style={{fontSize:19,color:'#1D1D1E'}}>Orders</Text>
             </View>   
         </View>
-        <Text style={{marginTop:10}}>Jan 2020</Text>
+        <Text style={{marginTop:10, marginLeft:10}}>Jan 2020</Text>
         <View style={{width:'90%', flexDirection:'row', alignItems:'center', marginLeft:10,marginTop:15}}>
             <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between'}}>          
                 <View>

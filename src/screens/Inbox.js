@@ -4,13 +4,15 @@ import AntDesign from "react-native-vector-icons/AntDesign"
 import Entypo from "react-native-vector-icons/Entypo"
 
 
-const Inbox = () => {
+const Inbox = ({navigation}) => {
   const [check, setCheck] = useState(false)
   return (
     <View style={{flex:1}}>
         <View style={{width:'100%', height:60, elevation:5, justifyContent:'center', shadowColor:'#E9E9E8', backgroundColor:'#fff'}}>
             <View  style={{flexDirection:'row', width:'50%',justifyContent:'space-between', marginLeft:10}}>
-                <AntDesign name="arrowleft" size={25} color="#1C1C1F"/>
+                <TouchableOpacity onPress={() => navigation.navigate('Order')}>
+                  <AntDesign name="arrowleft" size={25} color="#1C1C1F"/>
+                </TouchableOpacity>
                 <Text style={{fontSize:19,color:'#1D1D1E'}}>Inbox</Text>
             </View>   
         </View>

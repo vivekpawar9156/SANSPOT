@@ -4,8 +4,17 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import CheckBox from '@react-native-community/checkbox';
 
-const Lunch = () => {
+const Lunch = ({navigation}) => {
     const [toggleCheckBox, setToggleCheckBox] = useState(false)
+    const [check1, setCheck1] = useState(false);
+
+    const Confirm = () => {
+        if (toggleCheckBox == true){
+          navigation.navigate("Inbox")
+        }
+        return false;
+    }
+
   return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
       <View
@@ -78,7 +87,7 @@ const Lunch = () => {
             </Text>
       </View>
 
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={()=>Confirm()}>
             <Text style={{fontSize:15, color:'#fff'}}>Confirm</Text>
       </TouchableOpacity>
 

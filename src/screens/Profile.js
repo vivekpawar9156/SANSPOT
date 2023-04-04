@@ -13,7 +13,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {LinearTextGradient} from 'react-native-text-gradient';
 import LinearGradient from 'react-native-linear-gradient';
 
-const Profile = () => {
+const Profile = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [errorEmail, setErrorEmail] = useState('');
 
@@ -27,6 +27,9 @@ const Profile = () => {
   const [PassswordConfirm, setPassswordConfirm] = useState("");
   const [PassswordConfirmerror, setPassswordConfirmerror] = useState(null);
 
+
+  const [username, setusername] = useState('')
+  const [usernameerror, setusernameerror] = useState(null)
 
   const emailValidate = email => {
     var status = true;
@@ -92,6 +95,56 @@ const Profile = () => {
   };
 
 
+  const usernamevalidate = (txt) => {
+    if (txt == "" || txt == null || txt == undefined) {
+      setusernameerror('Please enter username')
+      return false
+    } else if (txt.length <= 3) {
+      setusernameerror('max 6 and min 16, do not enter capital letter');
+      return true;
+    }
+    else {
+      setusernameerror(null)
+      return true
+    }
+  }
+
+
+  const onSubmit = () => {
+    var flag = true;
+    if (
+      PassswordConfirm === "" ||
+      PassswordConfirm === undefined ||
+      PassswordConfirm === null
+    ) {
+      setPassswordConfirmerror("*Please enter your confirm password");
+      flag = false;
+    }
+    if (password === "" || password === undefined || password === null) {
+      setErrorPassword("*Please enter your password");
+      flag = false;
+    }
+    if (!passwordValidate(password)) {
+      setErrorPassword("*Please enter your password");
+      flag = false;
+    }
+    if (!confirmvalidate(PassswordConfirm)) {
+      setPassswordConfirmerror("*Please enter your confirm password");
+      flag = false;
+    }
+    if (!validateMobile(phone)) {
+      setErrorPhone("*Please enter valid phone number");
+      flag = false;
+    }
+    if (!usernamevalidate(username)) {
+      setusernameerror('please enter username')
+      flag = false;
+    }
+
+    return flag;
+  }
+
+
   return (
     <ScrollView
       style={{flex: 1, paddingBottom: 30}}
@@ -107,7 +160,9 @@ const Profile = () => {
           <Text style={{fontSize: 20, fontWeight: '700', color: '#4B4B4C'}}>
             Profile
           </Text>
-          <Ionicons name="ios-cart-sharp" size={25} color="#4B4B4C" />
+          <TouchableOpacity >          
+            <Ionicons name="ios-cart-sharp" size={25} color="#4B4B4C" />
+          </TouchableOpacity>
         </View>
 
         <View style={{width: '100%', height: 250}}>
@@ -160,8 +215,17 @@ const Profile = () => {
             placeholder="Enter Your Name"
             style={styles.textinputstyle}
             placeholderTextColor="#6E6E6F"
+            keyboardType="default"
+            // secureTextEntry={isSecureEntry}
+            maxLength={16}
+            onChangeText={(text) => {
+              setusername(text), usernamevalidate(text);
+            }}
           />
         </View>
+        {usernameerror &&
+          <Text style={styles.errorText}>*{usernameerror}</Text>
+        }
 
         <View style={styles.textinput}>
           <Text style={styles.text}>Email</Text>
@@ -269,7 +333,12 @@ const Profile = () => {
 
 
 
-        <TouchableOpacity activeOpacity={1}>
+        <TouchableOpacity activeOpacity={1} onPress={() => {
+          if (onSubmit()){
+            navigation.navigate("Lunch")
+          }}
+          
+        }>
           <LinearGradient
             colors={['#EA2584', '#F14773', '#F2566A']}
             style={styles.save}>
@@ -320,4 +389,9 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: '600',
   },
+  errorText:{
+    fontSize:12,
+    color:'red',
+    marginLeft:20
+  }
 });
